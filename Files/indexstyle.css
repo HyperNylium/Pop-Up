@@ -1,0 +1,312 @@
+:root {
+  --squish-animation-time: 550ms;
+  --progress-animation-time: 8000ms;
+  --circle-animation-time: 550ms;
+  --checkmark-animation-time: 300ms;
+  --btn-width: 100px;
+  --btn-height: 38px;
+}
+
+body{
+  font-family: sans-serif;
+  background-color: rgb(44, 43, 43);
+}
+
+.display-none{
+  display: none !important;
+  pointer-events: none;
+  user-select: none;
+}
+
+.btn{
+  border: none;
+  color: rgba(255, 255, 255, 0.712);
+  border-radius: 5px;
+  background-color: black;
+}
+
+.btn:hover{
+  opacity: 0.8;
+}
+
+.popup-btn{
+  width: 210px;
+  height: 65px;
+  font-size: 30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.popup-btn2{
+  width: 210px;
+  height: 65px;
+  font-size: 30px;
+  position: absolute;
+  top: 40%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.close-svg{
+  width: 25px;
+  height: 25px;
+  opacity: 1;
+}
+
+.close-svg:hover{
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.container{
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  max-width: 40%;
+  min-width: 20%;
+  max-height: 80%;
+  transform: translate(-50%, -50%) scale(0);
+  background-color: rgba(82, 82, 82, 0.808);
+  border: 1px black solid;
+  border-radius: 10px;
+  box-shadow: 0px 1px 5px 3px rgba(0,0,0,0.6);
+  padding-top: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  overflow: auto;
+  transition: 260ms ease-in-out;
+}
+
+.container.active{
+  transform: translate(-50%, -50%) scale(1);
+  transition: 260ms ease-in-out;
+}
+
+.container-head{
+  border-bottom: 1px black solid;
+  border-radius: 2px;
+  font-size: 30px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: space-between;
+  color: transparent;
+}
+
+.head-text{
+  margin: 0%;
+  padding: 0%;
+  color: rgba(255, 255, 255, 0.795);
+}
+
+.container-body{
+  font-size: 18px;
+  text-align: center;
+  color: rgba(241, 241, 241, 0.589);
+  margin-top: 40px;
+  line-height: 23px;
+}
+
+.container-footer{
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 30px; 
+}
+
+.anibtn {
+  position: relative;
+  background-color: rgb(138, 180, 248);
+  color: black;
+  border: none;
+  border-radius: 5px;
+  width: 200px;
+  height: 45px;
+  cursor: pointer;
+  padding: .5em .75em;
+  font-size: 1.3em;
+}
+
+.underText{
+  color: rgb(154, 160, 166);
+  background-color: transparent;
+  padding-top: 4px;
+}
+
+.transition{
+  transition: all ease-in-out 250ms;
+}
+
+.anibtn:hover{
+  opacity: 0.8;
+}
+
+.anibtn.animating {
+  background-color: transparent;
+  color: transparent;
+  user-select: none;
+  cursor: default;
+  pointer-events: none;
+  animation: hide 0ms calc(var(--squish-animation-time) + var(--progress-animation-time)) forwards;
+}
+
+.anibtn::before {
+  content: "";
+  display: none;
+  position: absolute;
+  background-color: #2B2D2F;
+  inset: 0;
+  border-radius: .125em;
+  animation: squish var(--squish-animation-time) cubic-bezier(0.26, 0.6, 0.46, 1.7);
+  animation-fill-mode: forwards;
+}
+
+
+.anibtn::after {
+  content: "";
+  display: none;
+  position: absolute;
+  background-color: rgb(138, 180, 248);
+  left: 51%;
+  right: 51%;
+  top: 45%;
+  bottom: 45%;
+  border-radius: .25em;
+  animation: progress var(--progress-animation-time) var(--squish-animation-time);
+  animation-fill-mode: forwards;
+}
+
+.anibtn.animating::before,
+.anibtn.animating::after {
+  display: block;
+}
+
+.anibtn.animating + .checkmark-container {
+  background-color: #2B2D2F;
+  border-radius: .25em;
+  width: 0;
+  height: 0;
+  animation: circle var(--circle-animation-time) calc(var(--squish-animation-time) + var(--progress-animation-time)) forwards cubic-bezier(0.26, 0.6, 0.46, 1.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.anibtn.animating + .checkmark-container .checkmark-svg {
+  stroke: white;
+  width: 25px;
+  stroke-dashoffset: 40.84104919433594;
+  stroke-dasharray: 40.84104919433594;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3px;
+  animation: checkmark var(--circle-animation-time) calc(var(--squish-animation-time) + var(--progress-animation-time) + var(--circle-animation-time)) forwards;
+}
+
+@keyframes squish {
+  100% {
+    left: -25%;
+    right: -25%;
+    top: 50%;
+    bottom: 50%;
+    border-radius: .25em;
+  }
+}
+
+@keyframes progress {
+  100% {
+    left: -25%;
+    right: -25%;
+  }
+}
+
+@keyframes hide {
+  100% {
+    width: 0;
+    height: 0;
+  }
+}
+
+@keyframes circle {
+  0% {
+    width: 0px;
+    height: 0px;
+  }
+  100% {
+    background-color: #2fe6af;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+  }
+}
+
+@keyframes checkmark {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+
+
+@media (max-width: 715px) {
+
+  .container-body{
+    font-size: 16px;
+    margin-top: 30px;
+    line-height: 20px;
+  }
+
+  .container-head{
+    font-size: 22px;
+  }
+
+  .container-footer{
+    margin-top: 10px; 
+  }
+
+  .container{
+  
+    min-width: 80%;
+    max-height: 80%;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+  }
+
+  .anibtn{
+    font-size: 1em;
+    max-width: 75%;
+  }
+
+  .close-svg{
+    width: 25px;
+    height: 25px;
+  }
+
+  @keyframes squish {
+    100% {
+      left: -5%;
+      right: -5%;
+      top: 45%;
+      bottom: 45%;
+      border-radius: .25em;
+    }
+  }
+  
+  @keyframes progress {
+    100% {
+      left: -5%;
+      right: -5%;
+    }
+  }
+}
